@@ -21,4 +21,5 @@ from hw1 import urls as hw1_urls
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('hw1/', include('hw1.urls')),
+    path('hw2/', include('hw2.urls')),
 ]
