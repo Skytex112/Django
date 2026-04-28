@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% if page %}{{ page.title }}{% else %}{{ title }}{% endif %}
+    </title>
+
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            margin-top: 5%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    {% if page %}
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.content }}</p>
+
+    {% else %}
+        <img src="{{ img }}">
+        <div class="day">{{ content }}</div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
