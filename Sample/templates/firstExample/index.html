@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Templates</title>
+    <style>
+        .welcome{
+            color: darkgreen;
+        }
+        .success{
+            color: green;
+            font-weight: bold;
+            font-size: 25px;
+        }
+        .error{
+           color: red;
+            font-weight: bold;
+            font-size: 25px; 
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url "text-format" %}">Go to page 'Text-Format'</a>
+    
+    <h1>Main Page</h1>
+    <h1 class="welcome">{{welcome_text}}</h1>
+    {% autoescape off %}
+    {{html_tag}}
+    {% endautoescape %}
+
+    <ul>
+        <li>Integer: {{value_int}}</li>
+        <li>Float: {{value_float}}</li>
+        <li>Boolean: {{value_bool}}</li>
+        <li>List: {{list}}</li>
+        <li>Dictionary: {{dict}}</li>
+        <li>Object: {{object}}</li>
+    </ul>
+
+    <p>Person's name: {{object.name}}</p>
+
+    <p>List item: {{list.1}} </p>
+    <p>Dict item: {{dict.key1}}</p>
+
+    {% if value_bool %}
+        <p class="success">Condition is True</p>
+    {% else %}
+        <p class="error">Condition is False</p>
+    {% endif %}
+
+    <h4> Check value: {{random_value}} </h4>
+    {% if random_value < 0 %}
+        <p> Value less then 0</p>
+    {% elif random_value >= 0 and random_value < 5 %}
+        <p> Value greater 0 and less then 5 <p>
+    {% else %}
+        <p> Value greater then 5 </p>
+    {% endif %}
+
+    <ul>
+        {% for item in list %}
+            <li style="color: {% cycle 'red' 'green' 'blue'%}">{{item|linenumbers}}</li>
+        {% endfor %}
+
+        {% for k, v in dict.items %}
+            <li> {{k}} : {{v}}</li>
+        {% endfor %}
+        <li> Keys: </li>
+        <ul>
+            {% for k in dict.keys %}
+                <li> {{k}} </li>
+            {% endfor %}
+        </ul>
+        <li> Value: </li>
+        <ul>
+            {% for k in dict.values %}
+                <li> {{k}}</li>
+            {% endfor %}
+        </ul>
+    </ul>
+
+    <ul>
+        {% for item in empty_list %}
+            <li>{{item}}</li>
+            {%empty%}
+            <li class="error">List is empty</li>
+        {% endfor %}
+    </ul>
+
+    <p><b>Person created in template:</b></p>
+    <ul>
+        {% with name="Tom" surname="Due" age=22 %}
+        <li>{{name}}</li>
+        <li>{{surname}}</li>
+        <li>{{age}}</li>
+        {% endwith %}
+    </ul>
+
+    <p>Datetime: {% now "DATE_FORMAT" %} </p>
+    <p>Year: {% now "N o h i s u" %}</p>
+
+    {% lorem 67 p %}
+</body>
+</html>

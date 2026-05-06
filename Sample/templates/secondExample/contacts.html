@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block contacts %}
+<h1>Contacts</h1>
+
+{% for p in persons %}
+    {% include "contact-detail-part.html" with name=p.name surname=p.surname number=p.number%}
+{% endfor %}
+{% endblock contacts %}
+

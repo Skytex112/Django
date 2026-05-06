@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Format</title>
+</head>
+<body>
+    {% with message="Hello" sample_string="test string" float_value=10.339339 none_value=None %}
+        <p> Original String: {{sample_string}}</p>
+        <p> Upper Case: {{sample_string|upper}}</p>
+        <p> Lower Case: {{sample_string|lower}}</p>
+        <p> Title: {{sample_string|title}}</p>
+        <p>Turned String: {{ sample_string|truncatechars:4 }}</p>
+        <p> Float Value: {{float_value}}</p>
+        <p> Rounded Float Format: {{float_value|floatformat:2}}</p>
+        <p> None Value: {{none_value}}</p>
+        <p> Default Value for None: {{none_value|default:"Default value"}}</p>
+        <p> Cut: {{sample_string|cut:"string"}}</p>
+        <p> Cap First: {{sample_string|capfirst}}</p>
+
+    {% endwith %}
+</body>
+</html>
