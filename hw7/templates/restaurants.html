@@ -1,0 +1,37 @@
+<h1>Restaurants</h1>
+
+<form method="get">
+    <input name="q" placeholder="Search by specialization">
+    <button>Search</button>
+</form>
+
+<hr>
+
+<form method="post">
+    {% csrf_token %}
+
+    <input name="name" placeholder="Name"><br><br>
+    <input name="specialization" placeholder="Specialization"><br><br>
+    <input name="address" placeholder="Address"><br><br>
+    <input name="website" placeholder="Website"><br><br>
+    <input name="phone" placeholder="Phone"><br><br>
+
+    <button>Add</button>
+</form>
+
+<hr>
+
+{% for r in restaurants %}
+
+<h3>{{ r.name }}</h3>
+<p>{{ r.specialization }}</p>
+<p>{{ r.address }}</p>
+<p>{{ r.website }}</p>
+<p>{{ r.phone }}</p>
+
+<a href="/hw7/edit/{{ r.id }}/">Edit</a>
+<a href="/hw7/delete/{{ r.id }}/">Delete</a>
+
+<hr>
+
+{% endfor %}

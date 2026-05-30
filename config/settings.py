@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "Sample",
     'hw5',
     'hw6',
+    'hw7',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates',
                  BASE_DIR / "Sample\\templates\\secondExample",
-                 BASE_DIR / "hw6\\templates",],
+                 BASE_DIR / "hw7\\templates",],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

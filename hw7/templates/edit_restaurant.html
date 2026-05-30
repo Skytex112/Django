@@ -1,0 +1,13 @@
+<h1>Edit Restaurant</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <input name="name" value="{{ restaurant.name }}"><br><br>
+    <input name="specialization" value="{{ restaurant.specialization }}"><br><br>
+    <input name="address" value="{{ restaurant.address }}"><br><br>
+    <input name="website" value="{{ restaurant.website }}"><br><br>
+    <input name="phone" value="{{ restaurant.phone }}"><br><br>
+
+    <button>Save</button>
+</form>
