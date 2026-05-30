@@ -1,0 +1,16 @@
+<h1>Readers</h1>
+
+<a href="/hw6/add-reader/">Add Reader</a>
+
+<hr>
+
+{% for r in readers %}
+
+<h3>{{ r.first_name }} {{ r.last_name }}</h3>
+<p>{{ r.phone }}</p>
+<p>{{ r.email }}</p>
+<p>{{ r.registration_date }}</p>
+
+<hr>
+
+{% endfor %}

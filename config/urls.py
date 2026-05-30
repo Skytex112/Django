@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from hw1 import urls as hw1_urls
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -26,4 +25,5 @@ urlpatterns = [
     path('hw4/', include('hw4.urls')),
     path('templates/', include('Sample.urls')),
     path('hw5/', include('hw5.urls')),
+    path('hw6/', include('hw6.urls')),
 ]

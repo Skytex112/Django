@@ -1,0 +1,13 @@
+<h2>Add Reader</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <input name="first_name" placeholder="First Name"><br><br>
+    <input name="last_name" placeholder="Last Name"><br><br>
+    <input name="phone" placeholder="Phone"><br><br>
+    <input name="email" placeholder="Email"><br><br>
+    <input name="date" placeholder="Registration Date"><br><br>
+
+    <button>Add</button>
+</form>
