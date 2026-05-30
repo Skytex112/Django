@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 1</title>
+</head>
+<body>
+
+    <h2>Введіть ім'я та прізвище</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <input type="text" name="first_name" placeholder="Ім'я" required>
+        </p>
+
+        <p>
+            <input type="text" name="last_name" placeholder="Прізвище" required>
+        </p>
+
+        <button type="submit">Надіслати</button>
+    </form>
+
+    {% if greeting %}
+        <h3>{{ greeting }}</h3>
+    {% endif %}
+
+</body>
+</html>

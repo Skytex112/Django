@@ -25,4 +25,5 @@ urlpatterns = [
     path('hw3/', include('hw3.urls')),
     path('hw4/', include('hw4.urls')),
     path('templates/', include('Sample.urls')),
+    path('hw5/', include('hw5.urls')),
 ]

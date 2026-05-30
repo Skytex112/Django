@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 2</title>
+</head>
+<body>
+
+    <h2>Пошук простих чисел</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <input type="number" name="start" placeholder="Початок діапазону" required>
+        </p>
+
+        <p>
+            <input type="number" name="end" placeholder="Кінець діапазону" required>
+        </p>
+
+        <button type="submit">Показати</button>
+    </form>
+
+    {% if primes %}
+        <h3>Прості числа:</h3>
+
+        {% for prime in primes %}
+            {{ prime }}
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

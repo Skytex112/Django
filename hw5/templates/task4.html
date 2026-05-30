@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 4</title>
+</head>
+<body>
+
+    <h2>Таблиця множення</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <input type="number" name="start" placeholder="Початок діапазону" required>
+        </p>
+
+        <p>
+            <input type="number" name="end" placeholder="Кінець діапазону" required>
+        </p>
+
+        <button type="submit">Показати таблицю</button>
+    </form>
+
+    {% if table %}
+        <h3>Результат:</h3>
+
+        {% for row in table %}
+            <hr>
+
+            {% for item in row %}
+                {{ item }}<br>
+            {% endfor %}
+
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

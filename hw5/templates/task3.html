@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Завдання 3</title>
+</head>
+<body>
+
+    <h2>Підписка на новини</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <p>
+            <input type="text" name="first_name" placeholder="Ім'я" required>
+        </p>
+
+        <p>
+            <input type="text" name="last_name" placeholder="Прізвище" required>
+        </p>
+
+        <p>
+            <input type="number" name="age" placeholder="Вік" required>
+        </p>
+
+        <p>
+            <select name="gender">
+                <option value="Чоловік">Чоловік</option>
+                <option value="Жінка">Жінка</option>
+            </select>
+        </p>
+
+        <p>
+            <input type="email" name="email" placeholder="Email" required>
+        </p>
+
+        <button type="submit">Підписатися</button>
+    </form>
+
+    {% if user %}
+        <h3>Отримані дані:</h3>
+
+        <p><strong>Ім'я:</strong> {{ user.first_name }}</p>
+        <p><strong>Прізвище:</strong> {{ user.last_name }}</p>
+        <p><strong>Вік:</strong> {{ user.age }}</p>
+        <p><strong>Стать:</strong> {{ user.gender }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    {% endif %}
+
+</body>
+</html>
