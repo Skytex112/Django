@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarShop - Бизнес Аналитика</title>
+    
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/material-icons.css' %}">
+</head>
+<body class="grey lighten-5">
+
+    <nav class="blue darken-3">
+        <div class="nav-wrapper container">
+            <a href="{% url 'business_dashboard' %}" class="brand-logo">CarShop CRM</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="{% url 'business_dashboard' %}"><i class="material-icons left">dashboard</i>Панель отчетов</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+
+        {% endblock content %}
+    </main>
+
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+</body>
+</html>

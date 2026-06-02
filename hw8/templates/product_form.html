@@ -1,0 +1,26 @@
+{% extends "base_layout.html" %}
+
+{% block content %}
+<div class="container" style="margin-top: 50px; max-width: 600px;">
+    <div class="card z-depth-2" style="border-radius: 8px;">
+        <div class="card-content" style="padding: 40px;">
+            <span class="card-title blue-text text-darken-3" style="font-weight: bold;">
+                {% if form.instance.pk %}Редактирование товара{% else %} Добавление нового товара{% endif %}
+            </span>
+            <div class="divider" style="margin-bottom: 25px;"></div>
+            
+            <form method="POST" autocomplete="off">
+                {% csrf_token %}
+                <div class="input-field-custom">
+                    {{ form.as_p }}
+                </div>
+                <div class="card-action style-actions">
+                    <a href="{% url 'business_dashboard' %}" class="btn-flat grey-text">Отмена</a>
+                    <button type="submit" class="btn green waves-effect">Сохранить товар</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% include "form_styles.html" %}
+{% endblock content %}

@@ -1,0 +1,270 @@
+{% extends "base_layout.html" %}
+
+{% block content %}
+<div class="container" style="margin-top: 30px; margin-bottom: 50px;">
+    <h4 class="blue-text text-darken-3">Аналитическая панель (Задания 1, 2, 3, 4)</h4>
+
+    <div class="card-panel white z-depth-1" style="margin-bottom: 40px; border-radius: 8px;">
+        <h5 class="blue-text text-darken-2 valign-wrapper">
+            <i class="material-icons" style="margin-right: 10px;">analytics</i>Модуль генерации отчетов
+        </h5>
+        <div class="divider" style="margin-bottom: 20px;"></div>
+        
+        <div class="row">
+            <form method="GET" class="col s12 m4">
+                <input type="hidden" name="report_type" value="buyers_by_seller">
+                <label class="black-text" style="font-size: 1rem;">Покупатели продавца:</label>
+                <select name="seller_id" class="browser-default" onchange="this.form.submit()" style="margin-top: 8px;">
+                    <option value="">Выберите продавца...</option>
+                    {% for s in sellers %}
+                        <option value="{{ s.id }}">{{ s.full_name }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <form method="GET" class="col s12 m4">
+                <label class="black-text" style="font-size: 1rem;">Фильтр по дате:</label>
+                <input type="date" name="date" class="validate" required style="margin-top: 5px; margin-bottom: 5px;">
+                <div style="display: flex; gap: 5px;">
+                    <button name="report_type" value="sales_by_date" class="btn-small blue waves-effect waves-light">Продажи</button>
+                    <button name="report_type" value="total_amount_by_date" class="btn-small green waves-effect waves-light">Сумма за день</button>
+                </div>
+            </form>
+
+            <form method="GET" class="col s12 m4">
+                <label class="black-text" style="font-size: 1rem;">Поиск по товару:</label>
+                <select name="product_id" class="browser-default" required style="margin-top: 8px; margin-bottom: 8px;">
+                    <option value="">Выберите товар...</option>
+                    {% for p in products %}
+                        <option value="{{ p.id }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+                <div style="display: flex; gap: 5px;">
+                    <button name="report_type" value="sellers_by_product" class="btn-small orange waves-effect waves-light">Кто продал</button>
+                    <button name="report_type" value="buyers_by_product" class="btn-small purple waves-effect waves-light">Кто купил</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="divider" style="margin-top: 15px; margin-bottom: 15px;"></div>
+
+        <div class="row">
+            <div class="col s12 m6" style="margin-bottom: 15px;">
+                <label class="black-text" style="font-size: 1rem;">Глобальные топы:</label>
+                <div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;">
+                    <a href="?report_type=top_product" class="btn-small red waves-effect waves-light">Топ Товар</a>
+                    <a href="?report_type=top_seller" class="btn-small red waves-effect waves-light">Топ Продавец</a>
+                    <a href="?report_type=top_buyer" class="btn-small red waves-effect waves-light">Топ Покупатель</a>
+                </div>
+            </div>
+            
+            <form method="GET" class="col s12 m6">
+                <label class="black-text" style="font-size: 1rem;">Поиск лучших за промежуток времени:</label>
+                <div class="row" style="margin-bottom: 5px; margin-top: 5px;">
+                    <div class="input-field col s6" style="margin: 0;"><input type="date" name="start_date" required></div>
+                    <div class="input-field col s6" style="margin: 0;"><input type="date" name="end_date" required></div>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                    <button name="report_type" value="top_product_range" class="btn-small teal waves-effect waves-light">Товар за период</button>
+                    <button name="report_type" value="top_seller_range" class="btn-small teal waves-effect waves-light">Продавец за период</button>
+                    <button name="report_type" value="top_buyer_range" class="btn-small teal waves-effect waves-light">Покупатель за период</button>
+                </div>
+            </form>
+        </div>
+
+        {% if report_type %}
+        <div class="card-panel blue lighten-5 black-text" style="border-left: 5px solid #1565c0; margin-top: 20px;">
+            <h6 style="font-weight: bold; margin-bottom: 10px;" class="valign-wrapper"><i class="material-icons" style="margin-right: 5px;">info</i>Результаты генерации:</h6>
+            {% if report_results.text %}
+                <h5 class="blue-text text-darken-4" style="margin: 0;">{{ report_results.text }}</h5>
+            {% elif report_results.clients %}
+                <ul class="collection" style="border: none;">
+                    {% for c in report_results.clients %}
+                        <li class="collection-item" style="background: transparent;"> Покупатель: <strong>{{ c.full_name }}</strong> ({{ c.email }})</li>
+                    {% endfor %}
+                </ul>
+            {% elif report_results.sellers %}
+                <ul class="collection" style="border: none;">
+                    {% for s in report_results.sellers %}
+                        <li class="collection-item" style="background: transparent;"> Продавец: <strong>{{ s.full_name }}</strong> (Удостоверение: {{ s.badge_number }})</li>
+                    {% endfor %}
+                </ul>
+            {% elif report_results.sales %}
+                <ul class="collection" style="border: none;">
+                    {% for s in report_results.sales %}
+                        <li class="collection-item" style="background: transparent;"> {{ s.product.name }} | Количество: {{ s.quantity }} шт. | Выручка: <strong>${{ s.total_price }}</strong></li>
+                    {% endfor %}
+                </ul>
+            {% elif report_results.total_sum is not None %}
+                <h5 style="margin: 0;"> Общая сумма продаж за {{ report_results.selected_date }}: <strong class="green-text">${{ report_results.total_sum }}</strong></h5>
+            {% else %}
+                <p class="grey-text">По указанным критериям данных в базе не обнаружено.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    <h4 class="blue-text text-darken-3" style="margin-top: 40px;">Управление записями данных</h4>
+    <div class="divider" style="margin-bottom: 20px;"></div>
+
+    <div class="card-panel white z-depth-1">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h5 style="margin: 0;">Товары</h5>
+            
+                <i class="material-icons left">add</i>Добавить товар
+            </a>
+        </div>
+        <table class="striped responsive-table">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th>Стоимость</th>
+                    <th>Склад</th>
+                    <th class="right-align">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in products %}
+                <tr>
+                    <td><strong>{{ p.name }}</strong></td>
+                    <td>${{ p.price }}</td>
+                    <td>{{ p.stock }} шт.</td>
+                    <td class="right-align" style="display: flex; justify-content: flex-end; gap: 8px;">
+                        
+                            <i class="material-icons">edit</i>
+                        </a>
+                        
+                            {% csrf_token %}
+                            <button type="submit" class="btn-small red waves-effect waves-light" onclick="return confirm('Удалить товар?')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-panel white z-depth-1" style="margin-top: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h5 style="margin: 0;">Продавцы</h5>
+            
+                <i class="material-icons left">add</i>Добавить продавца
+            </a>
+        </div>
+        <table class="striped responsive-table">
+            <thead>
+                <tr>
+                    <th>ФИО Продавца</th>
+                    <th>Жетон / Удостоверение</th>
+                    <th class="right-align">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in sellers %}
+                <tr>
+                    <td><strong>{{ s.full_name }}</strong></td>
+                    <td>№ {{ s.badge_number }}</td>
+                    <td class="right-align" style="display: flex; justify-content: flex-end; gap: 8px;">
+                        
+                            <i class="material-icons">edit</i>
+                        </a>
+                        
+                            {% csrf_token %}
+                            <button type="submit" class="btn-small red waves-effect waves-light" onclick="return confirm('Удалить продавца?')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-panel white z-depth-1" style="margin-top: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h5 style="margin: 0;">Покупатели (Клиенты)</h5>
+            
+                <i class="material-icons left">add</i>Добавить клиента
+            </a>
+        </div>
+        <table class="striped responsive-table">
+            <thead>
+                <tr>
+                    <th>ФИО Покупателя</th>
+                    <th>Email-адрес</th>
+                    <th>Телефон</th>
+                    <th class="right-align">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in clients %}
+                <tr>
+                    <td><strong>{{ c.full_name }}</strong></td>
+                    <td>{{ c.email }}</td>
+                    <td>{{ c.phone|default:"Не указан" }}</td>
+                    <td class="right-align" style="display: flex; justify-content: flex-end; gap: 8px;">
+                        
+                            <i class="material-icons">edit</i>
+                        </a>
+                        
+                            {% csrf_token %}
+                            <button type="submit" class="btn-small red waves-effect waves-light" onclick="return confirm('Удалить покупателя?')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-panel white z-depth-1" style="margin-top: 30px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h5 style="margin: 0;">Журнал Учета Продаж</h5>
+            
+                <i class="material-icons left">add</i>Оформить продажу
+            </a>
+        </div>
+        <table class="striped responsive-table">
+            <thead>
+                <tr>
+                    <th>Товар</th>
+                    <th>Продавец</th>
+                    <th>Покупатель</th>
+                    <th>Кол-во</th>
+                    <th>Итоговая сумма</th>
+                    <th>Дата транзакции</th>
+                    <th class="right-align">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in sales %}
+                <tr>
+                    <td>{{ s.product.name }}</td>
+                    <td>{{ s.seller.full_name }}</td>
+                    <td>{{ s.buyer.full_name }}</td>
+                    <td>{{ s.quantity }} шт.</td>
+                    <td><strong>${{ s.total_price }}</strong></td>
+                    <td>{{ s.sale_date }}</td>
+                    <td class="right-align" style="display: flex; justify-content: flex-end; gap: 8px;">
+                        
+                            <i class="material-icons">edit</i>
+                        </a>
+                        
+                            {% csrf_token %}
+                            <button type="submit" class="btn-small red waves-effect waves-light" onclick="return confirm('Аннулировать операцию продажи?')">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock content %}
