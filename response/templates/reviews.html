@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 40px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .review-card {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .rating {
+            color: #ff9800;
+        }
+        .review-text {
+            color: #666;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Відгук від студента</h1>
+
+    {% for review in reviews %}
+        <div class="review-card">
+            <p class="review-text">"{{ review.text }}"</p>
+            <small style="color: #999;">Дата: {{ review.date }}</small>
+        </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
